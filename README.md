@@ -1,7 +1,7 @@
 nflGamblingBot
 ==============================
 
-Make money money!
+Make money money! and checking to see if i have my repo set up
 
 Project Organization
 ------------
