@@ -14,69 +14,38 @@
 
 '''
 import sys
-
 import pandas as pd
 import numpy as np
 import time
+import dill 
+from tqdm import tqdm
+from collections import Counter
+from itertools import chain
+import operator
+import click
+import logging
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 sys.path.append('../src')
-import config as cfg 
+import config as cfg_glb
 
-def opn_drvr( main_pg=cfg.URL_MASTER ):
-	"""input
-	   main_pg: html of root page to scrape
-	   drvr: Browser you want to use; Chrome() typical
+# print('updated')
 
-	   output: 
-	   Selenium webdriver
-	   -----------------------------
-	   + Opens the main/root page
-	   + Returns a Selenium webdriver
-	"""
+### How to recursively search through dictionaries:
 
-	driver = webdriver.Chrome()
-
-	driver.get( main_pg )
-
-	return driver
-
-def htmls_by_xpath( xp, driver ):
-	"""input
-	   xp: xpath containing
-	   driver: Selenium webdriver object
-
-	   output: 
-	   list of htmls incl in xpath
-	   -----------------------------
-	   Returns list of htmls contained in a given xpath
-	"""
-
-	xp_els = driver.find_elements_by_xpath( xp )
-	
-	lst_els = []
-	for el in xp_els:
-		lst_els.append( el.get_attribute( 'href' ) )
-
-	return lst_els
-
-# def opn_html( driver, html, ):
-# 	"""input
-# 	   driver: Selenium webdriver object
-# 	   html: an html string
-# 	   output: 
-# 	   Selenium webdriver object
-# 	   -----------------------------
-# 	   Returns Selenium webdriver object of html input
-# 	"""
-	
-# 	return driver.get( html )
-
-
-
-
+def gen_dict_extract(var, key):
+    if isinstance(var, dict):
+        for k, v in var.items():
+            if k == key:
+                yield v
+            if isinstance(v, (dict, list)):
+                yield from gen_dict_extract(v, key)
+    elif isinstance(var, list):
+        for d in var:
+            yield from gen_dict_extract(d, key)
 
 
 
