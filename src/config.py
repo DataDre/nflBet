@@ -6,7 +6,7 @@ SEASON_END = 2020
 URL_MASTER = 'https://www.pro-football-reference.com/years/{}/week_{}.htm'.format( SEASON_START, 1 )
 """ url of root page you want to scrape """
 
-SEASONS = list( range( 2010, SEASON_END + 1 ) )
+SEASONS = list( range( SEASON_START, SEASON_END + 1 ) )
 
 ######################################################
 #############   GLOBAL VARIABLES: PATHS   ############
@@ -51,8 +51,64 @@ TEAM_NAMES = { 'buf':'BILLS', 'mia':'DOLPHINS', 'nwe':'PATRIOTS', 'nyj':'JETS',
 ## SCRAPER ##
 ##########################
 
+PG_TBLS = [ 'gameInfo', 'prr', 'def' ]
 
-
+# test = {'2011': { 
+# 			'Week 1': { 
+# 				'Game 1': {
+# 					'Game_Info': {
+# 						'Home Team': 'Packers',
+# 					    'Away Team': 'Saints'
+# 					    'Roof': 'outdoors', 
+# 					    'Surface': 'grass',
+# 					    'weather': '68 degrees',
+# 					    'Line': 'Green Bay Packers -5.0',
+# 					    'Pt_Total': 48.0 
+# 						},
+# 					'PRR': {
+# 						'Player': { 
+# 							'Drew Brees': {
+# 								'Completions_pass': 32,
+# 								'Attempts_pass': 49,
+# 								'Yards_pass': 419,
+# 								'TD_pass': 3
+# 							},
+# 							'Mark Ingram': {
+# 								'Attempts_rush': 13,
+# 								'Yards_rush': 40,
+# 								'TD_rush': 0
+# 								}
+# 						}
+# 					}	
+# 				},
+# 				'Game 2': {
+# 					'Game_Info': {
+# 						'Home Team': 'Packers',
+# 					    'Away Team': 'Saints'
+# 					    'Roof': 'outdoors', 
+# 					    'Surface': 'grass',
+# 					    'weather': '85 degrees',
+# 					    'Line': 'Green Bay Packers -3.0',
+# 					    'Pt_Total': 48.0 
+# 						},
+# 					'PRR': {
+# 						'Player': { 
+# 							'Drew Brees': {
+# 								'Completions_pass': 45,
+# 								'Attempts_pass': 60,
+# 								'Yards_pass': 550,
+# 								'TD_pass': 5
+# 							},
+# 							'Mark Ingram': {
+# 								'Attempts_rush': 7,
+# 								'Yards_rush': 75,
+# 								'TD_rush': 2
+# 								}
+# 						}
+# 					}	
+# 				}
+# 			}
+# }
 
 
 

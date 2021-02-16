@@ -36,19 +36,15 @@ import config as cfg_glb
 
 class WebScraper( object ):
 	"""
-    Uses patient BGP (predicted in previous function), reg, meal, and insulin titration
-    to recommend insulin tritration adjustments based on set of clinically derived rule.
+    initates Selenium driver and includes functions to navigate
 
 
     Methods:
     --------
-    + replace_bgp_str       : converts string outputs from BGP predictions to BGPs
-    + determine_dosage      : uses rules-based model to generate 
-                              insulin recos (to be used as features for ML model)
-    + aggregate_and_map     : aggregates the rules-based model recos and maps to 
-                              proper mealtimes
-    + generate_bgp_features : reads in patient logbooks with raw BG readings and 
-                                  creates features for the ML model
+    + opn_webPg       	 : opens driver to specified web address
+    + back      		 : navigates back one address in history 
+    + htmls_by_xpath     : returns a list of web links per specified xpath
+    + text_by_xpath 	 : returns a list of text per specified xpath
 
     """
 	def __init__( self, main_pg=cfg_glb.URL_MASTER ):
@@ -59,8 +55,7 @@ class WebScraper( object ):
 	def opn_webPg( self, webPg ):
 		"""input
 		   main_pg: html of root page to scrape
-		   drvr: Browser you want to use; Chrome() typical
-
+		   
 		   output: 
 		   Selenium webdriver
 		   -----------------------------
@@ -68,11 +63,7 @@ class WebScraper( object ):
 		   + Returns a Selenium webdriver
 		"""
 
-		# driver = webdriver.Chrome()
-		
 		return self.driver.get( webPg )
-
-		# return driver
 
 	def back( self ):
 		"""Go back"""

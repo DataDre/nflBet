@@ -36,16 +36,31 @@ import config as cfg_glb
 
 ### How to recursively search through dictionaries:
 
-def gen_dict_extract(var, key):
-    if isinstance(var, dict):
+def gen_dict_extract( var, key ):
+    if isinstance( var, dict ):
         for k, v in var.items():
             if k == key:
                 yield v
-            if isinstance(v, (dict, list)):
-                yield from gen_dict_extract(v, key)
-    elif isinstance(var, list):
+            if isinstance( v, ( dict, list ) ):
+                yield from gen_dict_extract( v, key )
+    elif isinstance( var, list ):
         for d in var:
-            yield from gen_dict_extract(d, key)
+            yield from gen_dict_extract( d, key )
+
+def build_stats_dict( name_dict, key ):
+
+	try:
+
+		name_dict[ key ]
+
+	except:
+
+		name_dict[ key ] = {}
+
+	return name_dict
+
+
+
 
 
 
