@@ -3,10 +3,10 @@ import numpy as np
 
 SEASON_START = 2011
 SEASON_END = 2020
-URL_MASTER = 'https://www.pro-football-reference.com/years/{}/week_{}.htm'.format( SEASON_START, 1 )
+URL_MASTER='https://www.pro-football-reference.com/years/'
 """ url of root page you want to scrape """
 
-SEASONS = list( range( SEASON_START, SEASON_END + 1 ) )
+SEASONS = [ str( i ) for i in list( range( SEASON_START, SEASON_END + 1 ) ) ]
 
 ######################################################
 #############   GLOBAL VARIABLES: PATHS   ############

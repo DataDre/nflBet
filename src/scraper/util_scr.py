@@ -95,12 +95,62 @@ def build_stats_shell( d=defaultdict( dict ) ):
                 d[ season ][ week ].setdefault( game, {} )
                 
                 for tbl in cfg_glb.STATS_LV2:
-                	
-                	d[ season ][ week ][ game ].setdefault( tbl, {} )
+                    
+                    d[ season ][ week ][ game ].setdefault( tbl, {} )
 
     return d
 
+def scrub( lst_to_scrub, keep_lst ):
 
+    for lnk in lst_to_scrub:
+    
+        if any( word in lnk for word in keep_lst ):
+            
+            yield lnk
+
+
+def scrape_data_links( driver, xp_sns, xp_wks_in_sn, xp_gms_in_wk, tst_toggle=None ):
+
+    d = defaultdict( dict )
+    
+    #get list of season URLs
+    driver.opn_webPg( cfg_glb.URL_MASTER )
+    seasons_links = driver.htmls_by_xpath( xp_sns )
+    seasons_links = sorted( list( scrub( seasons_links, cfg_glb.SEASONS ) ) )
+    
+    for ssn_link in seasons_links[ :tst_toggle ]:
+
+        ssn = [ i for i in ssn_link.split( '/' ) if i in cfg_glb.SEASONS ][ 0 ]
+        driver.opn_webPg( ssn_link )
+        
+        #get list of week URLs in the season
+        weeks_links = driver.htmls_by_xpath( xp_wks_in_sn )
+        
+        i=1
+        for wk_lnk in weeks_links[ :tst_toggle ]:
+            
+            #get list of game URLs in a given week
+            driver.opn_webPg( wk_lnk )
+            d[ ssn ].update( { 'Week ' + str( i ) : driver.htmls_by_xpath( xp_gms_in_wk ) } )
+            i+=1
+
+    return d
+
+# game_num=1
+# for link in bscr_links[:tst_toggle]:
+    
+#     webScrpr.opn_webPg( link )
+    
+#     #scrape Game Info table
+#     stats_dict[ season ][ cfg_glb.WEEKS_LBL[ i ] ]\
+#     [ 'Game '+str( game_num ) ][ 'gameInfo' ] = hlp.make_tbl_dict( 
+#                                                         driver=webScrpr, 
+#                                                         xp_k=xp_kGI, 
+#                                                         xp_v=xp_vGI 
+#                                                         )
+    
+    
+#     game_num+=1
 
 
 
