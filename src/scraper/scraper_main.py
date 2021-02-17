@@ -65,6 +65,11 @@ class WebScraper( object ):
 
 		return self.driver.get( webPg )
 
+	def quit( self ):
+		"""close driver
+		"""
+		return self.driver.quit()
+
 	def back( self ):
 		"""Go back"""
 		return self.driver.back()

@@ -4,6 +4,10 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
+import sys
+
+sys.path.append( '../' )
+import config as cfg_glb
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -14,6 +18,14 @@ def main(input_filepath, output_filepath):
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+
+    hlp.build_stats_shell( ) 
+
+    for season in cfg_glb.SEASONS:
+
+        
+
+
 
 
 if __name__ == '__main__':

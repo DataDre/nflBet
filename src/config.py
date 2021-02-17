@@ -47,11 +47,36 @@ TEAM_NAMES = { 'buf':'BILLS', 'mia':'DOLPHINS', 'nwe':'PATRIOTS', 'nyj':'JETS',
 			  'sea':'SEAHWAKS', 'ram':'RAMS', 'crd':'CARDINALS', 'sfo':'49ERS'
 			 }
 
+WEEKS_LBL = {
+	  1: 'Week 1',
+	  2: 'Week 2',
+	  3: 'Week 3',
+	  4: 'Week 4',
+	  5: 'Week 5',
+	  6: 'Week 6',
+	  7: 'Week 7',
+	  8: 'Week 8',
+	  9: 'Week 9',
+	 10: 'Week 10',
+	 11: 'Week 11',
+	 12: 'Week 12',
+	 13: 'Week 13',
+	 14: 'Week 14',
+	 15: 'Week 15',
+	 16: 'Week 16',
+	 17: 'Week 17',
+	 18: 'Wild Card',
+	 19: 'Divisional',
+	 20: 'Conf Champ',
+	 21: 'Super Bowl'
+ }
+
 ##########################
 ## SCRAPER ##
 ##########################
 
-PG_TBLS = [ 'gameInfo', 'prr', 'def' ]
+# STATS_LV1 = [ 'season', 'week', 'game' ]
+STATS_LV2 = [ 'gameInfo', 'prr', 'def', 'st', 'prr_adv', 'def_adv' ]
 
 # test = {'2011': { 
 # 			'Week 1': { 
@@ -109,8 +134,6 @@ PG_TBLS = [ 'gameInfo', 'prr', 'def' ]
 # 				}
 # 			}
 # }
-
-
 
 
 
