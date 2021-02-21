@@ -76,7 +76,7 @@ WEEKS_LBL = {
 ##########################
 
 # STATS_LV1 = [ 'season', 'week', 'game' ]
-STATS_LV2 = [ 'gameInfo', 'prr', 'def', 'st', 'prr_adv', 'def_adv' ]
+STATS_LV2 = [ 'link', 'gameInfo', 'prr', 'def', 'st', 'prr_adv', 'def_adv' ]
 
 # test = {'2011': { 
 # 			'Week 1': { 
