@@ -76,8 +76,18 @@ WEEKS_LBL = {
 ##########################
 
 # STATS_LV1 = [ 'season', 'week', 'game' ]
-STATS_LV2 = [ 'link', 'gameInfo', 'prr', 'def', 'st', 'prr_adv', 'def_adv' ]
-
+STATS_LV2 = [ 'gameInfo', 'prr', 'def', 'st', 'prr_adv', 'def_adv' ]
+TBL_XPS = {
+	'gameInfo': '//*[@id="game_info"]', 
+	'prr':'//*[@id="player_offense"]', 
+	'def':'//*[@id="player_defense"]', 
+	'st_returns':'//*[@id="returns"]',
+	'st_kicking':'//*[@id="kicking"]', 
+	'pass_adv':'//*[@id="passing_advanced"]',
+	'rush_adv':'//*[@id="rushing_advanced"]',
+	'rec_adv':'//*[@id="receiving_advanced"]', 
+	'def_adv':'//*[@id="defense_advanced"]'
+}
 # test = {'2011': { 
 # 			'Week 1': { 
 # 				'Game 1': {

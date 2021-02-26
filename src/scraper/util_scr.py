@@ -29,6 +29,7 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+import scraper_main as scrp
 sys.path.append('../src')
 import config as cfg_glb
 
@@ -36,7 +37,18 @@ import config as cfg_glb
 
 
 
-def make_tbl_dict( driver, xp_k, xp_v ):
+def make_tbl_dict( driver, xp_k, xp_v, k_word='Player' ):
+    """
+    input
+    driver: Selenium sebdriver object
+    xp_k: xpath for table to scrape; will use as dictionary keys
+    xp_v: xpath for table to scrape; will use as dictionary vals
+
+    output: 
+    dictionary containing scraped table
+   -----------------------------
+    Create a dictionary of scraped web data using Selenium
+    """
     
     key_lst = driver.text_by_xpath( xp_k )
     val_lst = driver.text_by_xpath( xp_v )
@@ -44,6 +56,15 @@ def make_tbl_dict( driver, xp_k, xp_v ):
     return dict( zip( key_lst, val_lst ) )
 
 def build_stats_shell( d=defaultdict( dict ) ):
+    """
+    input
+    d: dictionary; none needed
+
+    output: 
+    dictionary shell containing format for stats
+   -----------------------------
+    Create a dictionary shell for stats input
+    """
     
     for game in list( range( 1, 17 ) ):
 
@@ -66,7 +87,16 @@ def build_stats_shell( d=defaultdict( dict ) ):
     return d
 
 def scrub( lst_to_scrub, keep_lst ):
+    """
+    input
+    lst_to_scrub: list of els to scrub
+    keep_lst: list; list of keywords
 
+    output: 
+    generator object containing scrubbed lst_to_scrub
+   -----------------------------
+    Scrubs lst_to_scrub of any els not containing any words in keep_lst
+    """
     for lnk in lst_to_scrub:
     
         if any( word in lnk for word in keep_lst ):
@@ -101,7 +131,7 @@ def scrape_data_links( driver, xp_sns, xp_wks_in_sn, xp_gms_in_wk, tst_toggle=No
             games_links = driver.htmls_by_xpath( xp_gms_in_wk )
             d[ ssn ].setdefault( 'Week ' + str( i ), {} )
 
-            for g in range( 1, len( games_links )+1 ):
+            for g in range( 1, len( games_links )+1 )[ :tst_toggle ]:
                 
                 d[ ssn ][ 'Week ' + str( i ) ].setdefault( 'Game ' + str( g ), { 'link' : games_links[ g-1 ] } )
                 # d[ ssn ][ 'Week ' + str( i ) ].update( { 'Game ' + str( g ): games_links[ g-1 ] } )
@@ -135,24 +165,88 @@ def add_to_nested_key( source_d, info_d ):
     
     return source_d
 
-### How to recursively search through dictionaries:
-def gen_dict_extract( var, key ):
+def opn_link_by_key( driver, d, key, stats_tbls, xp_t, xp_k, xp_v ):
     
-    if isinstance( var, dict ):
+    if isinstance( d, dict ):
         
-        for k, v in var.items():
+        for k, v in d.items():
+            
+            if k == key and isinstance( v, str ):
+
+                driver.opn_webPg( v )
+
+                for tbl in stats_tbls:
+
+                    if driver.check_for_el_by_xp( cfg_glb.TBL_XPS[ tbl ][ 'tbl' ] ):
+
+                        d.update( { tbl: make_tbl_dict( cfg_glb.TBL_XPS[ tbl ][ 'key' ], cfg_glb.TBL_XPS[ tbl ][ 'val' ] ) } )
+                
+                yield d
+            
+            elif isinstance( v, ( dict, list ) ):
+                
+                yield from opn_link_by_key( driver, v, key )
+
+            else:
+
+                yield print( 'last nested dictionary {} does not contain {}'.format( d, key ) )
+
+        # return v
+
+    elif isinstance( d, list ):
+        
+        for el in d:
+            
+            yield from opn_link_by_key( el, key )
+
+    else:
+
+        yield print( 'last nested dictionary: {} does not contain key: {}'.format( d, key ) )
+
+def scrape_tables( driver, d, key, ):
+
+    if isinstance( d, dict ):
+        
+        for k, v in d.items():
             
             if k == key:
+                
+                return driver.opn_webPg( v )
+
+            if isinstance( v, ( dict, list ) ):
+
+                gen_dict_extract( driver, v, key )
+
+    elif isinstance( d, list ):
+        
+        for el in d:
+            
+            gen_dict_extract( el, key )
+
+    else:
+
+        return print( 'last nested dictionary {} does not contain {}'.format( d, key ) )
+
+### How to recursively search through dictionaries:
+def gen_dict_extract( d, key ):
+    
+    if isinstance( d, dict ):
+        
+        for k, v in d.items():
+            
+            if k == key:
+
                 yield v
             
             if isinstance( v, ( dict, list ) ):
+
                 yield from gen_dict_extract( v, key )
     
-    elif isinstance( var, list ):
+    elif isinstance( d, list ):
         
-        for d in var:
+        for el in d:
             
-            yield from gen_dict_extract( d, key )
+            yield from gen_dict_extract( el, key )
 
 '''
 def scrape_data( d, driver, xp_k, xp_v ):
